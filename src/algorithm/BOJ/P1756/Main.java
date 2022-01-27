@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -34,17 +33,23 @@ public class Main {
             list.add(d+1);
             int bottom = d+1;
             st = new StringTokenizer(br.readLine());
-            Collections.reverse(list);
             for (int i = 0; i < n; i++) {
                 int dough = Integer.parseInt(st.nextToken());
-                if (oven[bottom] >= dough) {
+                if (min >= dough) {
                     bottom--;
                 } else {
-                    while(oven[list.get(0)] < dough) {
-                        bottom = list.get(0) - 1;
-                        list.remove(0);
+                    for (int j : list) {
+                        if (oven[j] < dough) {
+                            bottom = j-1;
+                            break;
+                        }
                     }
                 }
+                if (bottom <= 0) {
+                    bottom = 0;
+                    break;
+                }
+                min = oven[bottom-1];
             }
             System.out.println(bottom);
         } catch (IOException e) {
